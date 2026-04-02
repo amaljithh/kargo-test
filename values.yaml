@@ -1,0 +1,23 @@
+replicaCount: 4
+
+image:
+  repository: amaljithh/green-page
+  tag: "v1"
+  pullPolicy: Always
+
+service:
+  name: nginx-service
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+#resources:
+#  requests:
+#    cpu: 50m
+#    memory: 64Mi
+#  limits:
+#    cpu: 100m
+#    memory: 128Mi
+
+env:
+  name: dev
