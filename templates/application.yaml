@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/kyndryl-cto/poc-argocd-canary.git
+    repoURL: https://github.com/amaljithh/kargo-test.git
     targetRevision: HEAD
     path: .
     helm:
