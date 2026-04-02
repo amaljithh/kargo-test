@@ -1,7 +1,7 @@
 replicaCount: 4
 
 image:
-  repository: amaljithh/green-page
+  repository: amaljithh/blue-page
   tag: "v1"
   pullPolicy: Always
 
