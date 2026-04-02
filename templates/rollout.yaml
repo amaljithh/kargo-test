@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ .Release.Name }}-nginx
+  labels:
+    app: nginx
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+  strategy:
+    canary:
+      canaryService: rollout-ngnix-preview
+      stableService: rollout-ngnix-active
+      steps:
+        - setWeight: 25
+        - pause: {duration: 5}
+        - analysis:
+            templates:
+              - templateName: blue-green-check
+        - setWeight: 50
+        - pause: {duration: 10}
+        - setWeight: 75
+        - pause: {duration: 10}
+        - setWeight: 100
+#      trafficRouting:
+#        plugins:
+#          argoproj-labs/gatewayAPI:
+#            httpRoute: my-httproute
+#            namespace: myapp-ns
